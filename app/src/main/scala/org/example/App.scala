@@ -6,23 +6,23 @@ import org.apache.flink.api.common.typeinfo.TypeInformation
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.windowing.assigners.SlidingEventTimeWindows
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow
-import org.apache.flinkx.api.*
+import org.apache.flinkx.api.StreamExecutionEnvironment
 import org.apache.flinkx.api.function.ProcessWindowFunction
-import org.apache.flinkx.api.serializers.*
+import org.apache.flinkx.api.serializers._
 import org.apache.flink.util.Collector
 
 import java.time.Duration
 import scala.util.Random
-import scala.jdk.CollectionConverters.*
+import scala.jdk.CollectionConverters._
 
 object App {
 
   import io.circe.generic.auto._
   import io.circe.config.syntax._
 
-  given TypeInformation[Item] = deriveTypeInformation
+  implicit val ti: TypeInformation[Item] = deriveTypeInformation
 
-  given Decoder[Configuration] =
+  implicit val d: Decoder[Configuration] =
     Decoder[Config].map {
       _.entrySet()
         .asScala
@@ -45,6 +45,8 @@ object App {
 
     env.fromElements(gen(), gen(), gen(), gen())
       .uid("source")
+      .assignAscendingTimestamps(_.key.##)
+      .uid("timestamping")
       .keyBy(_.key)
       .window(SlidingEventTimeWindows.of(
         Duration.ofMinutes(1),

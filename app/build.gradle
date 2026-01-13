@@ -8,26 +8,30 @@ repositories {
 }
 
 dependencies {
-    implementation "org.scala-lang:scala3-library_3:3.3.6"
+    implementation "org.scala-lang:scala-library:2.13.18"
 
     implementation "org.apache.flink:flink-streaming-java:2.0.0"
     implementation "org.apache.flink:flink-runtime-web:2.0.0"
     implementation "org.apache.flink:flink-table-api-java-bridge:2.0.0"
     implementation "org.apache.flink:flink-metrics-dropwizard:2.0.0"
 
-    implementation "io.circe:circe-generic_3:0.14.14"
-    implementation "io.circe:circe-config_3:0.10.1"
+    implementation "io.circe:circe-generic_2.13:0.13.0"
+    implementation "io.circe:circe-config_2.13:0.9.0"
 
-    implementation "org.flinkextended:flink-scala-api-2_3:2.0.4"
+    implementation "org.flinkextended:flink-scala-api-2_2.13:2.0.4"
 
     implementation "org.apache.logging.log4j:log4j-slf4j-impl:2.24.3"
-    implementation "com.typesafe.scala-logging:scala-logging_3:3.9.5"
+    implementation "com.typesafe.scala-logging:scala-logging_2.13:3.9.4"
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
+}
+
+scala {
+    scalaVersion = "2.13.18"
 }
 
 application {
