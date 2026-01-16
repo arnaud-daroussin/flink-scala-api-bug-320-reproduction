@@ -45,6 +45,8 @@ object App {
 
     env.fromElements(gen(), gen(), gen(), gen())
       .uid("source")
+      .assignAscendingTimestamps(_.key.##)
+      .uid("timestamping")
       .keyBy(_.key)
       .window(SlidingEventTimeWindows.of(
         Duration.ofMinutes(1),
